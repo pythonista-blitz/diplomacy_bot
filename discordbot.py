@@ -1,7 +1,13 @@
 # モジュールインポート
 import discord
+import json
+from collections import OrderedDict
+import pprint
 
-BOT_ACCESS_TOKEN = 'Njk4NzcxMDI1ODk4MjQyMDY4.XpKsNA.zSJIAwVm8WQabEjrCOhemo0MyzE'
+f = open('config.json')
+config = json.load(f)
+print(f)
+BOT_ACCESS_TOKEN = f["TOKEN"]
 
 client = discord.Client()
 
