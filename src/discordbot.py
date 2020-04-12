@@ -4,10 +4,10 @@ import json
 from collections import OrderedDict
 import pprint
 
-f = open('config.json')
-config = json.load(f)
-print(f)
-BOT_ACCESS_TOKEN = f["TOKEN"]
+f = open('../config/config.json', 'r')
+load_config = json.load(f)
+pprint.pprint(f)
+BOT_ACCESS_TOKEN = load_config["TOKEN"]
 
 client = discord.Client()
 
@@ -21,6 +21,8 @@ async def on_message(message):
         return
     if message.content == '/neko':
         await message.channel.send('にゃーん')
+    elif message.content == '/nekoparadise':
+        await message.channel.send('にゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーん')
     elif message.content == '/mk3':
         await message.channel.send('mk3はい')
 
