@@ -3,27 +3,42 @@ import discord
 import json
 from collections import OrderedDict
 import pprint
+from discord.ext import commands  # Bot Commands Frameworkをインポート
+import traceback  # エラー表示のためにインポート
 
+# 読み込むコグの名前を格納しておく。
+INITIAL_EXTENSIONS = [
+    'cogs.cog'
+]
+
+# アクセストークンの取得
 f = open('../config/config.json', 'r')
 load_config = json.load(f)
 pprint.pprint(f)
 BOT_ACCESS_TOKEN = load_config["TOKEN"]
 
-client = discord.Client()
 
-@client.event
-async def on_ready():
-    print('Login Successful')
+class DiplomacyBot(commands.Bot):
 
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    if message.content == '/neko':
-        await message.channel.send('にゃーん')
-    elif message.content == '/nekoparadise':
-        await message.channel.send('にゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーん')
-    elif message.content == '/mk3':
-        await message.channel.send('mk3はい')
+    def __init__(self, command_prefix):
+        # スーパークラスのコンストラクタに値を渡して実行。
+        super().__init__(command_prefix)
 
-client.run(BOT_ACCESS_TOKEN)
+        for cog in INITIAL_EXTENSIONS:
+            try:
+                self.load_extension(cog)
+            except Exception:
+                traceback.print_exc()
+
+    async def on_ready(self):
+        print('----------------')
+        print(self.user.name)
+        print(self.user.id)
+        print('Login Successful')
+        print('----------------')
+
+
+print(__name__)
+if __name__ == '__main__':
+    bot = DiplomacyBot(command_prefix='!')
+    bot.run(BOT_ACCESS_TOKEN)
